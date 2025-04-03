@@ -19,6 +19,7 @@ module.exports = {
         
     },
     async updateSensor(req,res){
+        console.log(req.body)
         const {humidity, temperature_ds18b20, id_sensor, sensor_type, level} = req.body;
         var activations = 0;
         if(temperature_ds18b20 > 32 && id_sensor==="RBIncubadora"){ //ATIVOU RELE-01
