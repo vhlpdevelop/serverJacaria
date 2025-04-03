@@ -4,6 +4,7 @@ const Sensors = new Schema({
   id_sensor:{type:String, required:true},
   sensor_type:{type:String, required:true},
   message:{type:String, default: "empty"},
+  level: {type:String, default:"empty"},
   temp: {type:String, default: "empty"},
   activations:{type:String, default: "empty"},
   humidity:{type:String, default: "empty"},
