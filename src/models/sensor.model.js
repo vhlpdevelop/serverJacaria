@@ -6,7 +6,7 @@ const Sensors = new Schema({
   message:{type:String, default: "empty"},
   temp: {type:String, default: "empty"},
   activations:{type:String, default: "empty"},
-  umidity:{type:String, default: "empty"},
+  humidity:{type:String, default: "empty"},
   createdAt:{ type: Date, default: Date.now },
   updatedAt:{ type: Date, default: Date.now }
 },{collection: 'Sensors'});
