@@ -46,11 +46,11 @@ module.exports = {
         }
 
     },
-    async updateSensor(req,res){
-        const {humidity, temperature_ds18b20, id_sensor, sensor_type, level} = req.body;
-        var activations = 0;
-        if(temperature_ds18b20 > 32 && id_sensor==="RBIncubadora"){ //ATIVOU RELE-01
-            activations++;
+    async updateSensor(req, res) {
+        const data = req.body;
+
+        if (!data.id_sensor) {
+            throw new Error('ID do sensor é obrigatório.');
         }
 
         const alerts = checkThresholds(data);
