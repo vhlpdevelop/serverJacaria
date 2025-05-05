@@ -37,14 +37,14 @@ const io = require("socket.io")(server, {
 
 //PROXYS
 const sensors_port = process.env.SENSORS_PORT || 3001;
-//const user_port = process.env.USER_PORT || 3002;
+const user_port = process.env.USER_PORT || 3002;
 const SensorsServiceProxy = httpProxy("0.0.0.0:" + sensors_port);
-//const UserServiceProxy = httpProxy("0.0.0.0:" + user_port);
+const UserServiceProxy = httpProxy("0.0.0.0:" + user_port);
 
 
 
 app.use('/sensors', (req, res, next) => SensorsServiceProxy(req, res, next));
-//app.use('/user', (req, res, next) => UserServiceProxy(req, res, next));
+app.use('/user', (req, res, next) => UserServiceProxy(req, res, next));
 
 /*
 db.on("open", () => {

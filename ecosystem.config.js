@@ -13,6 +13,17 @@ module.exports = {
         }
       },
       {
+        name: `User Service`,
+        script: './src/user_service/app.js',
+        env: {
+          NODE_ENV: "development",
+        },
+        env_production: {
+          NODE_ENV: "production",
+          PORT: process.env.USER_PORT || 3002,
+        }
+      },
+      {
         name: `API GATEWAY`,
         script: './src/app.js',
         env: {
