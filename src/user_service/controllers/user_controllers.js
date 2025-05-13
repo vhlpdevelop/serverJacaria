@@ -6,7 +6,8 @@ const authConfig = require("../../config/auth");
 const jwt = require("jsonwebtoken");
 
 
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
+const permissionsModel = require('../../models/permissions.model');
 function validateEmail(email) {
   var re =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -29,11 +30,11 @@ module.exports = {
     try {
       const response = await user_model.create(user_form)
       console.log(response)
-      return res.status(200).json({ obj: response, msg: "Usuário criado com sucesso", success: true })
+      return res.status(200).json({ obj: response, msg: "Usuário criado com sucesso", ok: true })
 
     } catch (e) {
       console.log(e)
-      return res.send({ obj: null, msg: "Erro ocorrido", error_Msg: e.message, success: false })
+      return res.send({ obj: null, msg: "Erro ocorrido", error_Msg: e.message, ok: false })
     }
 
   },
@@ -57,6 +58,13 @@ module.exports = {
       if (!(await bcrypt.compare(password, response.password))) {
         return res.send({ msg: "Email ou Senha inválida", ok: false });
       }
+
+      const permissions = await permissionsModel.findById({_id:response.permission});
+
+      if(!permissions){
+        return res.send({error:"Usuário sem Permissão", ok:false})
+      }
+
       const sensors = await sensor_model.find();
 
       const datatoken = jwt.sign(
@@ -82,6 +90,7 @@ module.exports = {
           cpf: response.cpf,
           createdAt: response.createdAt,
         },
+        userRoutes:permissions.routes,
         msg: "Sucesso! Estamos redirecionando",
       });
     } catch (error) {
@@ -89,7 +98,7 @@ module.exports = {
       res.status(400).send({
         error: "Não foi possível realizar o login",
         msg: error,
-        success: false,
+        ok: false,
       });
     }
   },

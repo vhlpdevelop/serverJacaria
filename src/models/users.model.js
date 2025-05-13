@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
+    permission:{type:String},
     email: {
         type: String,
         required: true,
